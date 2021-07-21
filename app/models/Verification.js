@@ -20,4 +20,4 @@ const verificationSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.Schema('Verification', verificationSchema);
+module.exports = mongoose.model('Verification', verificationSchema);
