@@ -6,15 +6,15 @@
  * @desc    Send any success response
  *
  * @param   {string} message
- * @param   {object | array} results
+ * @param   {object | array} data
  * @param   {number} statusCode
  */
-exports.success = (message, results, statusCode) => {
+exports.success = (message, data, statusCode) => {
   return {
     message,
     error: false,
     code: statusCode,
-    results
+    data
   };
 };
 

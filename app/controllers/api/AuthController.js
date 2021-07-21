@@ -40,14 +40,14 @@ exports.register = async (req, res) => {
         await newUser.save();
 
         // Generate and save token
-        let token = new Verification({
+        let verification = new Verification({
             token: randomString(50),
             userID: newUser._id,
             type: 'Register New Account'
         });
 
         // save token data
-        await token.save();
+        await verification.save();
 
         // send response
         res.status(201).json(success(
@@ -61,12 +61,53 @@ exports.register = async (req, res) => {
                     verifiedAt: newUser.verifiedAt,
                     createdAt: newUser.createdAt
                 },
-                Verification,
+                verification,
             },
             res.statusCode
         ));
     } catch (err) {
         console.error(err.message);
         res.status(500).json(error('server error', res.statusCode));
+    }
+};
+
+/*
+    @desc       verify new user
+    @method     GET api/auth/verify/:token
+    @access     Public
+*/
+exports.verify = async (req, res) => {
+    const { token } = req.params;
+
+    try {
+        let verification = await Verification.findOne({
+            token,
+            type: 'Register New Account'
+        });
+
+        if (!verification) {
+            return res.status(404).json(error('No verification data found', res.statusCode));
+        };
+
+        let user = await User.findOne({ _id: verification.userID }).select('-password');
+        user = await User.findByIdAndUpdate(user._id, {
+            $set: {
+                isVerified: true,
+                verifiedAt: new Date()
+            }
+        });
+
+        // after verifying user, remove verification data from db
+        verification = await Verification.findByIdAndRemove(verification._id);
+
+        // send response
+        res.status(200).json(success(
+            'verification successful',
+            null,
+            res.statusCode
+        ));
+    } catch (err) {
+        console.error(err);
+        res.status(500).json(error('Server error', res.statusCode));
     }
 };
