@@ -9,6 +9,7 @@ app.use(express.json({ extended: false }));
 connectToDB();
 
 // Routes
+app.get('/', (req, res) => res.send('Welcome to Auth API'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/password', require('./routes/api/forgotPassword'));
 
