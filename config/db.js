@@ -4,7 +4,8 @@ const DB_SECRET = require('./dbSecret')
 // connect to database
 const connectToDB = async () => {
      try {
-    await mongoose.connect(DB_SECRET, {
+       await mongoose.connect(DB_SECRET, {
+        useFindAndModify: false,
         useNewUrlParser: true,
         useUnifiedTopology: true
     });

@@ -10,6 +10,7 @@ connectToDB();
 
 // Routes
 app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/password', require('./routes/api/forgotPassword'));
 
 // run server
 const PORT = 8080;
