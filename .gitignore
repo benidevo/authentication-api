@@ -120,3 +120,4 @@ dist
 
 # config
 config/dbSecret.js
+config/default.json

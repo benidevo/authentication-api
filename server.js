@@ -11,4 +11,6 @@ connectToDB();
 // Routes
 app.use('/api/auth', require('./routes/api/auth'));
 
-app.listen(8080, () => console.log('Server Running at port 8080'))
+// run server
+const PORT = 8080;
+app.listen(PORT, () => console.log(`Server Running at port ${PORT}`))
